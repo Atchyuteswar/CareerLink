@@ -103,8 +103,12 @@ export const login = async (req, res) => {
             profile: user.profile
         }
 
-        // Send Cookie
-        return res.status(200).cookie("token", token, { maxAge: 1 * 24 * 60 * 60 * 1000, httpsOnly: true, sameSite: 'strict' }).json({
+        res.cookie("token", token, {
+            maxAge: 1 * 24 * 60 * 60 * 1000,
+            httpsOnly: true,
+            sameSite: 'none', // Required for cross-site cookies
+            secure: true      // Required if sameSite is 'none'
+        }).json({
             message: `Welcome back ${user.fullname}`,
             user,
             success: true
@@ -162,9 +166,9 @@ export const updateProfile = async (req, res) => {
 
         if (file) {
             const fileUri = getDataUri(file);
-            const cloudResponse = await cloudinary.uploader.upload(fileUri.content, { 
+            const cloudResponse = await cloudinary.uploader.upload(fileUri.content, {
                 resource_type: 'raw',
-                format: 'pdf' 
+                format: 'pdf'
             });
 
             user.profile.resume = cloudResponse.secure_url;
@@ -174,7 +178,7 @@ export const updateProfile = async (req, res) => {
             console.log("--- Resume Parsing Debug ---");
             console.log("Original Name:", file.originalname);
             console.log("Cloudinary URL:", cloudResponse.secure_url);
-            
+
             const extractedData = await extractDataFromResume(file.buffer);
             console.log("Found Skills:", extractedData.skills);
             // -----------------------

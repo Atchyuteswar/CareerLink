@@ -40,10 +40,11 @@ const Chat = () => {
     // 2. Connect Socket
     useEffect(() => {
         if (user) {
-            const newSocket = io('http://localhost:8000', {
-                query: { userId: user._id },
-                transports: ['websocket']
-            });
+            // Replace localhost with your Render URL
+const newSocket = io('https://careerlink-backend-99tb.onrender.com', {
+    query: { userId: user._id },
+    transports: ['websocket']
+});
             setSocket(newSocket);
             newSocket.on('getOnlineUsers', (users) => setOnlineUsers(users));
             newSocket.on('newMessage', (newMessage) => setMessages((prev) => [...prev, newMessage]));

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import Navbar from '../Navbar'
+import Navbar from '../shared/Navbar'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
@@ -43,7 +43,7 @@ const Signup = () => {
             <div className='flex items-center justify-center max-w-7xl mx-auto'>
                 <form onSubmit={submitHandler} className='w-1/2 border border-gray-200 rounded-md p-4 my-10'>
                     <h1 className='font-bold text-xl mb-5'>Sign Up</h1>
-                    
+
                     <div className='my-2'>
                         <label className='block text-sm font-medium'>Full Name</label>
                         <input type="text" value={input.fullname} name="fullname" onChange={changeEventHandler} placeholder="Atchyut" className='w-full border p-2 rounded-md' />

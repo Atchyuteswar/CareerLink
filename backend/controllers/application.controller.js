@@ -102,34 +102,34 @@ export const getApplicants = async (req, res) => {
     }
 }
 
-// 4. UPDATE STATUS (Accept/Reject)
-export const updateStatus = async (req, res) => {
+// update status
+export const updateStatus = async (req,res) => {
     try {
-        const { status } = req.body;
+        const {status} = req.body;
         const applicationId = req.params.id;
-        if (!status) {
+        if(!status){
             return res.status(400).json({
-                message: "status is required",
-                success: false
+                message:'status is required',
+                success:false
             })
         };
 
-        // Find the application
-        const application = await Application.findOne({ _id: applicationId });
-        if (!application) {
+        // find the application by applicant id
+        const application = await Application.findOne({_id:applicationId});
+        if(!application){
             return res.status(404).json({
-                message: "Application not found.",
-                success: false
+                message:'Application not found.',
+                success:false
             })
         };
 
-        // Update the status
+        // update the status
         application.status = status.toLowerCase();
         await application.save();
 
         return res.status(200).json({
-            message: "Status updated successfully.",
-            success: true
+            message:'Status updated successfully.',
+            success:true
         });
 
     } catch (error) {

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import Navbar from '../Navbar'
+import Navbar from '../shared/Navbar'
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 
@@ -64,10 +64,10 @@ const ApplicantsTable = () => {
                                         <div className='flex justify-end gap-2'>
                                             {shortListingStatus.map((status, index) => {
                                                 return (
-                                                    <button 
-                                                    key={index} 
-                                                    onClick={() => statusHandler(status, item._id)} 
-                                                    className={`text-xs px-3 py-1 rounded-md text-white ${status === "Accepted" ? "bg-green-600" : "bg-red-600"}`}>
+                                                    <button
+                                                        key={index}
+                                                        onClick={() => statusHandler(status, item._id)}
+                                                        className={`text-xs px-3 py-1 rounded-md text-white ${status === "Accepted" ? "bg-green-600" : "bg-red-600"}`}>
                                                         {status}
                                                     </button>
                                                 )

@@ -15,6 +15,7 @@ import Home from './components/home/Home'
 import About from './components/pages/About'
 import Contact from './components/pages/Contact'
 import FAQs from './components/pages/FAQs'
+import CompanyReviews from './components/pages/CompanyReviews'
 
 // --- STUDENT IMPORTS ---
 import Jobs from './components/student/Jobs'
@@ -26,6 +27,8 @@ import CareerInsights from './components/student/CareerInsights'
 import BrowseCompanies from './components/student/BrowseCompanies'
 import SalaryInsights from './components/student/SalaryInsights'
 import AccountSettings from './components/student/AccountSettings'
+import JobCompare from './components/student/JobCompare'
+import ApplicationTracker from './components/student/ApplicationTracker'
 
 // --- ADMIN IMPORTS ---
 import Companies from './components/admin/Companies'
@@ -35,6 +38,8 @@ import AdminJobs from './components/admin/AdminJobs'
 import PostJob from './components/admin/PostJob'
 import Applicants from './components/admin/Applicants'
 import CandidateSearch from './components/admin/CandidateSearch'
+import KanbanBoard from './components/admin/KanbanBoard'
+import AnalyticsDashboard from './components/admin/AnalyticsDashboard'
 import AdminRoute from './components/admin/ProtectedRoute'
 import ProtectedRoute from './components/shared/ProtectedRoute'
 
@@ -50,6 +55,7 @@ const appRouter = createBrowserRouter([
   { path: '/contact', element: <Contact /> },
   { path: '/faqs', element: <FAQs /> },
   { path: '/companies', element: <BrowseCompanies /> },
+  { path: '/reviews', element: <CompanyReviews /> },
 
   // --- JOB ROUTES ---
   { path: "/jobs", element: <Jobs /> },
@@ -60,6 +66,8 @@ const appRouter = createBrowserRouter([
   { path: "/saved-jobs", element: <SavedJobs /> },
   { path: "/career-insights", element: <ProtectedRoute><CareerInsights /></ProtectedRoute> },
   { path: "/salary-insights", element: <SalaryInsights /> },
+  { path: "/compare", element: <JobCompare /> },
+  { path: "/applications", element: <ProtectedRoute><ApplicationTracker /></ProtectedRoute> },
   { path: "/settings", element: <ProtectedRoute><AccountSettings /></ProtectedRoute> },
   { path: "/chat", element: <ProtectedRoute><Chat /></ProtectedRoute> },
   { path: "/profile", element: <ProtectedRoute><Profile /></ProtectedRoute> },
@@ -72,6 +80,8 @@ const appRouter = createBrowserRouter([
   { path: "/admin/companies", element: <AdminRoute><Companies /></AdminRoute> },
   { path: "/admin/jobs", element: <AdminRoute><AdminJobs /></AdminRoute> },
   { path: "/admin/candidates", element: <AdminRoute><CandidateSearch /></AdminRoute> },
+  { path: "/admin/pipeline", element: <AdminRoute><KanbanBoard /></AdminRoute> },
+  { path: "/admin/analytics", element: <AdminRoute><AnalyticsDashboard /></AdminRoute> },
 ])
 
 function App() {

@@ -50,9 +50,9 @@ const Footer = () => {
               {[
                 { label: "Browse Jobs", to: "/jobs" },
                 { label: "Saved Jobs", to: "/saved-jobs" },
-                { label: "Browse Companies", to: "/companies" },
+                { label: "Compare Jobs", to: "/compare" },
+                { label: "Company Reviews", to: "/reviews" },
                 { label: "Salary Insights", to: "/salary-insights" },
-                { label: "Career Insights", to: "/career-insights" },
               ].map((item) => (
                 <li key={item.label}>
                   <Link to={item.to} className="text-sm text-muted-foreground hover:text-violet-600 dark:hover:text-violet-400 transition-colors">
@@ -69,9 +69,10 @@ const Footer = () => {
             <ul className="space-y-3">
               {[
                 { label: "Post a Job", to: "/admin/jobs/create" },
-                { label: "Manage Companies", to: "/admin/companies" },
+                { label: "Hiring Pipeline", to: "/admin/pipeline" },
+                { label: "Analytics", to: "/admin/analytics" },
                 { label: "Find Candidates", to: "/admin/candidates" },
-                { label: "View Applicants", to: "/admin/jobs" },
+                { label: "Browse Companies", to: "/companies" },
               ].map((item) => (
                 <li key={item.label}>
                   <Link to={item.to} className="text-sm text-muted-foreground hover:text-violet-600 dark:hover:text-violet-400 transition-colors">

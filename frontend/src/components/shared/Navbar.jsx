@@ -10,7 +10,7 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover"
-import { LogOut, User, Briefcase, Building2, MessageSquare, Home, BookmarkCheck, Search, Brain, Users, Settings } from 'lucide-react'
+import { LogOut, User, Briefcase, Building2, MessageSquare, Home, BookmarkCheck, Search, Brain, Users, Settings, Scale, Columns3, ClipboardList, BarChart3, Star } from 'lucide-react'
 
 const Navbar = () => {
     const { user, setUser } = useContext(AuthContext);
@@ -63,13 +63,16 @@ const Navbar = () => {
                         <>
                             <NavLink to="/admin/companies" icon={Building2}>Companies</NavLink>
                             <NavLink to="/admin/jobs" icon={Briefcase}>Jobs</NavLink>
+                            <NavLink to="/admin/pipeline" icon={Columns3}>Pipeline</NavLink>
                             <NavLink to="/admin/candidates" icon={Users}>Candidates</NavLink>
+                            <NavLink to="/admin/analytics" icon={BarChart3}>Analytics</NavLink>
                             <NavLink to="/chat" icon={MessageSquare}>Messages</NavLink>
                         </>
                     ) : (
                         <>
                             <NavLink to="/" icon={Home}>Home</NavLink>
                             <NavLink to="/jobs" icon={Search}>Jobs</NavLink>
+                            <NavLink to="/compare" icon={Scale}>Compare</NavLink>
                             <NavLink to="/saved-jobs" icon={BookmarkCheck}>Saved</NavLink>
                             <NavLink to="/career-insights" icon={Brain}>Insights</NavLink>
                             <NavLink to="/chat" icon={MessageSquare}>Messages</NavLink>
@@ -130,6 +133,7 @@ const Navbar = () => {
                                 {/* Actions */}
                                 <div className='p-2'>
                                     {user && user.role === 'student' && (
+                                        <>
                                         <button 
                                             onClick={() => navigate('/profile')} 
                                             className='flex w-full items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors'
@@ -137,6 +141,14 @@ const Navbar = () => {
                                             <User className="w-4 h-4" />
                                             <span>View Profile</span>
                                         </button>
+                                        <button 
+                                            onClick={() => navigate('/applications')} 
+                                            className='flex w-full items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors'
+                                        >
+                                            <ClipboardList className="w-4 h-4" />
+                                            <span>My Applications</span>
+                                        </button>
+                                        </>
                                     )}
                                     <button 
                                         onClick={() => navigate('/settings')} 

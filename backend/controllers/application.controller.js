@@ -136,3 +136,40 @@ export const updateStatus = async (req,res) => {
         console.log(error);
     }
 }
+
+// 5. WITHDRAW APPLICATION (by candidate)
+export const withdrawApplication = async (req, res) => {
+    try {
+        const applicationId = req.params.id;
+        const application = await Application.findOne({ _id: applicationId, applicant: req.id });
+        if (!application) {
+            return res.status(404).json({ message: "Application not found.", success: false });
+        }
+        if (application.status === 'withdrawn') {
+            return res.status(400).json({ message: "Already withdrawn.", success: false });
+        }
+        application.status = 'withdrawn';
+        await application.save();
+        return res.status(200).json({ message: "Application withdrawn successfully.", success: true });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ message: "Internal Server Error", success: false });
+    }
+}
+
+// 6. ADD NOTE TO APPLICATION (by candidate)
+export const addApplicationNote = async (req, res) => {
+    try {
+        const { note } = req.body;
+        const application = await Application.findOne({ _id: req.params.id, applicant: req.id });
+        if (!application) {
+            return res.status(404).json({ message: "Application not found.", success: false });
+        }
+        application.notes = note || '';
+        await application.save();
+        return res.status(200).json({ message: "Note saved.", success: true });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ message: "Internal Server Error", success: false });
+    }
+}

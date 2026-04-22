@@ -9,6 +9,7 @@ import jobRoute from "./routes/job.route.js";
 import applicationRoute from "./routes/application.route.js";
 import { app, server } from "./socket/socket.js"; 
 import messageRoute from "./routes/message.route.js";
+import reviewRoute from "./routes/review.route.js";
 
 dotenv.config();
 
@@ -28,6 +29,7 @@ app.use("/api/v1/company", companyRoute);
 app.use("/api/v1/job", jobRoute);
 app.use("/api/v1/application", applicationRoute);
 app.use("/api/v1/message", messageRoute);
+app.use("/api/v1/review", reviewRoute);
 server.listen(PORT,()=>{
     connectDB();
     console.log(`Server running at port ${PORT}`);

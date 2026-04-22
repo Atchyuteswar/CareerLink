@@ -6,6 +6,8 @@ import { Button } from '../ui/button'
 import { Loader2 } from 'lucide-react'
 import axios from 'axios'
 import { AuthContext } from '../../context/AuthContext'
+import { toast } from 'sonner'
+
 const UpdateProfileDialog = ({ open, setOpen }) => {
     const [loading, setLoading] = useState(false);
     const { user, setUser } = useContext(AuthContext); 
@@ -41,27 +43,31 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
         formData.append("phoneNumber", input.phoneNumber);
         formData.append("bio", input.bio);
         formData.append("skills", input.skills);
+        formData.append("headline", input.headline);
+        formData.append("github", input.github);
+        formData.append("linkedin", input.linkedin);
+        formData.append("portfolio", input.portfolio);
 
-        // THE MOST IMPORTANT LINE:
         if (input.file) {
             formData.append("file", input.file);
         }
 
         try {
+            setLoading(true);
             const res = await axios.post(`${USER_API_END_POINT}/profile/update`, formData, {
                 headers: {
-                    'Content-Type': 'multipart/form-data' // Required for files
+                    'Content-Type': 'multipart/form-data'
                 },
                 withCredentials: true
             });
             if (res.data.success) {
-                setUser(res.data.user); // <--- Update Context directly
+                setUser(res.data.user);
                 setOpen(false);
-                alert(res.data.message);
+                toast.success(res.data.message);
             }
         } catch (error) {
             console.log(error);
-            alert(error.response?.data?.message || "Something went wrong");
+            toast.error(error.response?.data?.message || "Something went wrong");
         } finally {
             setLoading(false);
         }
@@ -69,61 +75,91 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
 
     return (
         <Dialog open={open} onOpenChange={setOpen}>
-            <DialogContent className="sm:max-w-[425px]" onInteractOutside={() => setOpen(false)}>
-                <DialogHeader>
-                    <DialogTitle>Update Profile</DialogTitle>
-                </DialogHeader>
-                <form onSubmit={submitHandler}>
-                    <div className='grid gap-4 py-4'>
-                        <div className='grid grid-cols-4 items-center gap-4'>
-                            <Label htmlFor="name" className="text-right">Name</Label>
-                            <Input id="name" name="fullname" type="text" value={input.fullname} onChange={changeEventHandler} className="col-span-3" />
+            <DialogContent className="sm:max-w-[500px] rounded-2xl border-gray-200/80 dark:border-gray-800 p-0 overflow-hidden" onInteractOutside={() => setOpen(false)}>
+                {/* Header with gradient */}
+                <div className='bg-gradient-to-r from-violet-600 to-indigo-600 px-6 py-5'>
+                    <DialogTitle className='text-white text-lg font-bold'>Update Profile</DialogTitle>
+                    <p className='text-violet-200 text-sm mt-1'>Keep your information up to date</p>
+                </div>
+                
+                <form onSubmit={submitHandler} className='px-6 pb-6'>
+                    <div className='grid gap-4 py-4 max-h-[60vh] overflow-y-auto pr-2'>
+                        {/* Basic Info */}
+                        <div className='space-y-3'>
+                            <h3 className='text-xs font-semibold text-muted-foreground uppercase tracking-wider'>Basic Info</h3>
+                            <div className='grid grid-cols-4 items-center gap-3'>
+                                <Label htmlFor="name" className="text-right text-sm font-medium">Name</Label>
+                                <Input id="name" name="fullname" type="text" value={input.fullname} onChange={changeEventHandler} className="col-span-3 rounded-xl" />
+                            </div>
+                            <div className='grid grid-cols-4 items-center gap-3'>
+                                <Label htmlFor="email" className="text-right text-sm font-medium">Email</Label>
+                                <Input id="email" name="email" type="email" value={input.email} onChange={changeEventHandler} className="col-span-3 rounded-xl" />
+                            </div>
+                            <div className='grid grid-cols-4 items-center gap-3'>
+                                <Label htmlFor="number" className="text-right text-sm font-medium">Phone</Label>
+                                <Input id="number" name="phoneNumber" value={input.phoneNumber} onChange={changeEventHandler} className="col-span-3 rounded-xl" />
+                            </div>
                         </div>
-                        <div className='grid grid-cols-4 items-center gap-4'>
-                            <Label htmlFor="email" className="text-right">Email</Label>
-                            <Input id="email" name="email" type="email" value={input.email} onChange={changeEventHandler} className="col-span-3" />
+
+                        {/* Professional Info */}
+                        <div className='space-y-3 pt-2 border-t border-gray-100 dark:border-gray-800'>
+                            <h3 className='text-xs font-semibold text-muted-foreground uppercase tracking-wider pt-2'>Professional</h3>
+                            <div className='grid grid-cols-4 items-center gap-3'>
+                                <Label htmlFor="headline" className="text-right text-sm font-medium">Title</Label>
+                                <Input id="headline" name="headline" placeholder="Ex: Full Stack Dev" value={input.headline} onChange={changeEventHandler} className="col-span-3 rounded-xl" />
+                            </div>
+                            <div className='grid grid-cols-4 items-center gap-3'>
+                                <Label htmlFor="bio" className="text-right text-sm font-medium">Bio</Label>
+                                <Input id="bio" name="bio" value={input.bio} onChange={changeEventHandler} className="col-span-3 rounded-xl" />
+                            </div>
+                            <div className='grid grid-cols-4 items-center gap-3'>
+                                <Label htmlFor="skills" className="text-right text-sm font-medium">Skills</Label>
+                                <Input id="skills" name="skills" placeholder="React, Node, Python..." value={input.skills} onChange={changeEventHandler} className="col-span-3 rounded-xl" />
+                            </div>
                         </div>
-                        <div className='grid grid-cols-4 items-center gap-4'>
-                            <Label htmlFor="number" className="text-right">Number</Label>
-                            <Input id="number" name="phoneNumber" value={input.phoneNumber} onChange={changeEventHandler} className="col-span-3" />
+
+                        {/* Links */}
+                        <div className='space-y-3 pt-2 border-t border-gray-100 dark:border-gray-800'>
+                            <h3 className='text-xs font-semibold text-muted-foreground uppercase tracking-wider pt-2'>Links</h3>
+                            <div className='grid grid-cols-4 items-center gap-3'>
+                                <Label htmlFor="github" className="text-right text-sm font-medium">GitHub</Label>
+                                <Input id="github" name="github" placeholder="https://github.com/..." value={input.github} onChange={changeEventHandler} className="col-span-3 rounded-xl" />
+                            </div>
+                            <div className='grid grid-cols-4 items-center gap-3'>
+                                <Label htmlFor="linkedin" className="text-right text-sm font-medium">LinkedIn</Label>
+                                <Input id="linkedin" name="linkedin" placeholder="https://linkedin.com/in/..." value={input.linkedin} onChange={changeEventHandler} className="col-span-3 rounded-xl" />
+                            </div>
+                            <div className='grid grid-cols-4 items-center gap-3'>
+                                <Label htmlFor="portfolio" className="text-right text-sm font-medium">Portfolio</Label>
+                                <Input id="portfolio" name="portfolio" placeholder="https://..." value={input.portfolio} onChange={changeEventHandler} className="col-span-3 rounded-xl" />
+                            </div>
                         </div>
-                        <div className='grid grid-cols-4 items-center gap-4'>
-                            <Label htmlFor="bio" className="text-right">Bio</Label>
-                            <Input id="bio" name="bio" value={input.bio} onChange={changeEventHandler} className="col-span-3" />
-                        </div>
-                        <div className='grid grid-cols-4 items-center gap-4'>
-                            <Label htmlFor="skills" className="text-right">Skills</Label>
-                            <Input id="skills" name="skills" value={input.skills} onChange={changeEventHandler} className="col-span-3" />
-                        </div>
-                        {/* New Fields */}
-                        <div className='grid grid-cols-4 items-center gap-4'>
-                            <Label htmlFor="headline" className="text-right">Headline</Label>
-                            <Input id="headline" name="headline" placeholder="Ex: Full Stack Dev" value={input.headline} onChange={changeEventHandler} className="col-span-3" />
-                        </div>
-                        <div className='grid grid-cols-4 items-center gap-4'>
-                            <Label htmlFor="github" className="text-right">GitHub</Label>
-                            <Input id="github" name="github" value={input.github} onChange={changeEventHandler} className="col-span-3" />
-                        </div>
-                        <div className='grid grid-cols-4 items-center gap-4'>
-                            <Label htmlFor="linkedin" className="text-right">LinkedIn</Label>
-                            <Input id="linkedin" name="linkedin" value={input.linkedin} onChange={changeEventHandler} className="col-span-3" />
-                        </div>
-                        <div className='grid grid-cols-4 items-center gap-4'>
-                            <Label htmlFor="portfolio" className="text-right">Portfolio</Label>
-                            <Input id="portfolio" name="portfolio" value={input.portfolio} onChange={changeEventHandler} className="col-span-3" />
+
+                        {/* Resume */}
+                        <div className='space-y-3 pt-2 border-t border-gray-100 dark:border-gray-800'>
+                            <h3 className='text-xs font-semibold text-muted-foreground uppercase tracking-wider pt-2'>Resume</h3>
+                            <div className='grid grid-cols-4 items-center gap-3'>
+                                <Label htmlFor="file" className="text-right text-sm font-medium">Upload</Label>
+                                <div className="col-span-3">
+                                    <Input id="file" name="file" type="file" accept="application/pdf" onChange={fileChangeHandler} className="rounded-xl" />
+                                    <p className='text-xs text-emerald-600 dark:text-emerald-400 mt-1.5 font-medium'>
+                                        ✨ Uploading a resume will auto-fill your skills and bio
+                                    </p>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div className='grid grid-cols-4 items-center gap-4'>
-                        <Label htmlFor="file" className="text-right">Resume</Label>
-                        <div className="col-span-3">
-                            <Input id="file" name="file" type="file" accept="application/pdf" onChange={fileChangeHandler} />
-                            <p className='text-xs text-green-600 mt-1'>
-                                * Uploading a resume will auto-fill your skills and bio if left empty.
-                            </p>
-                        </div>
-                    </div>
-                    <DialogFooter>
-                        {loading ? <Button className="w-full my-4"> <Loader2 className='mr-2 h-4 w-4 animate-spin' /> Please wait </Button> : <Button type="submit" className="w-full my-4 bg-[#6A38C2] hover:bg-[#5b30a6]">Update</Button>}
+
+                    <DialogFooter className="pt-2">
+                        {loading ? (
+                            <Button className="w-full rounded-xl h-11" disabled>
+                                <Loader2 className='mr-2 h-4 w-4 animate-spin' /> Updating...
+                            </Button>
+                        ) : (
+                            <Button type="submit" className="w-full btn-primary rounded-xl h-11 font-semibold">
+                                Save Changes
+                            </Button>
+                        )}
                     </DialogFooter>
                 </form>
             </DialogContent>

@@ -1,4 +1,5 @@
 import { Company } from "../models/company.model.js";
+import { Job } from "../models/job.model.js";
 
 // 1. REGISTER A COMPANY
 export const registerCompany = async (req, res) => {
@@ -89,5 +90,21 @@ export const updateCompany = async (req, res) => {
     } catch (error) {
         console.log(error);
         return res.status(500).json({ message: "Internal server error", success: false });
+    }
+}
+
+// 5. GET ALL PUBLIC COMPANIES (For Browse Companies page)
+export const getAllPublicCompanies = async (req, res) => {
+    try {
+        const companies = await Company.find({}).populate('userId', 'fullname');
+        // Get job counts for each company
+        const companiesWithJobs = await Promise.all(companies.map(async (company) => {
+            const jobCount = await Job.countDocuments({ company: company._id });
+            return { ...company.toObject(), jobCount };
+        }));
+        return res.status(200).json({ companies: companiesWithJobs, success: true });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ message: "Internal Server Error", success: false });
     }
 }

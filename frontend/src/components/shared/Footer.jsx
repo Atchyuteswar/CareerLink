@@ -1,65 +1,117 @@
 import React from 'react'
-import { Facebook, Twitter, Linkedin, Instagram } from 'lucide-react'
+import { Briefcase, Facebook, Twitter, Linkedin, Instagram, Github, Heart } from 'lucide-react'
+import { Link } from 'react-router-dom'
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-100 dark:bg-gray-900 text-gray-600 dark:text-gray-300 py-12 mt-20 transition-colors duration-300">
-      <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8">
-        
-        {/* Column 1: Brand */}
-        <div className="col-span-1 md:col-span-1">
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-            Career<span className="text-[#F83002]">Link</span>
-          </h2>
-          <p className="text-sm">
-            Connecting talent with opportunity. The #1 platform for finding your dream job and building your career.
-          </p>
-        </div>
+    <footer className="relative bg-gray-50 dark:bg-gray-950 border-t border-gray-200/50 dark:border-gray-800/50 transition-colors duration-300">
+      {/* Gradient top accent */}
+      <div className='absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-violet-500 to-transparent'></div>
 
-        {/* Column 2: Quick Links */}
-        <div>
-          <h3 className="font-bold text-gray-900 dark:text-white mb-4">Quick Links</h3>
-          <ul className="space-y-2 text-sm">
-            <li><a href="#" className="hover:text-[#6A38C2] transition-colors">About Us</a></li>
-            <li><a href="#" className="hover:text-[#6A38C2] transition-colors">Contact</a></li>
-            <li><a href="#" className="hover:text-[#6A38C2] transition-colors">Privacy Policy</a></li>
-            <li><a href="#" className="hover:text-[#6A38C2] transition-colors">Terms of Service</a></li>
-          </ul>
-        </div>
+      <div className="max-w-7xl mx-auto px-4 py-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+          
+          {/* Column 1: Brand */}
+          <div className="lg:col-span-1">
+            <div className='flex items-center gap-2 mb-4'>
+              <div className='w-9 h-9 rounded-xl gradient-primary flex items-center justify-center shadow-lg shadow-violet-500/20'>
+                <Briefcase className='w-5 h-5 text-white' />
+              </div>
+              <h2 className="text-xl font-bold text-foreground tracking-tight">
+                Career<span className="gradient-text">Link</span>
+              </h2>
+            </div>
+            <p className="text-sm text-muted-foreground leading-relaxed max-w-xs">
+              India's premier career platform connecting talented professionals with top companies. Your dream job is one click away.
+            </p>
+            <div className="flex gap-3 mt-6">
+              {[
+                { icon: Facebook, href: "#" },
+                { icon: Twitter, href: "#" },
+                { icon: Linkedin, href: "#" },
+                { icon: Instagram, href: "#" },
+                { icon: Github, href: "#" },
+              ].map(({ icon: Icon, href }, i) => (
+                <a 
+                  key={i} 
+                  href={href} 
+                  className="w-9 h-9 rounded-xl bg-gray-100 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/50 flex items-center justify-center text-gray-500 dark:text-gray-400 hover:bg-violet-50 dark:hover:bg-violet-500/10 hover:text-violet-600 dark:hover:text-violet-400 hover:border-violet-200 dark:hover:border-violet-500/30 transition-all duration-300 hover:-translate-y-0.5"
+                >
+                  <Icon size={16} />
+                </a>
+              ))}
+            </div>
+          </div>
 
-        {/* Column 3: Resources */}
-        <div>
-          <h3 className="font-bold text-gray-900 dark:text-white mb-4">Resources</h3>
-          <ul className="space-y-2 text-sm">
-            <li><a href="#" className="hover:text-[#6A38C2] transition-colors">Blog</a></li>
-            <li><a href="#" className="hover:text-[#6A38C2] transition-colors">Guides</a></li>
-            <li><a href="#" className="hover:text-[#6A38C2] transition-colors">Help Center</a></li>
-            <li><a href="#" className="hover:text-[#6A38C2] transition-colors">Partners</a></li>
-          </ul>
-        </div>
+          {/* Column 2: For Job Seekers */}
+          <div>
+            <h3 className="font-bold text-sm text-foreground uppercase tracking-wider mb-5">For Job Seekers</h3>
+            <ul className="space-y-3">
+              {[
+                { label: "Browse Jobs", to: "/jobs" },
+                { label: "Saved Jobs", to: "/saved-jobs" },
+                { label: "Browse Companies", to: "/companies" },
+                { label: "Salary Insights", to: "/salary-insights" },
+                { label: "Career Insights", to: "/career-insights" },
+              ].map((item) => (
+                <li key={item.label}>
+                  <Link to={item.to} className="text-sm text-muted-foreground hover:text-violet-600 dark:hover:text-violet-400 transition-colors">
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
 
-        {/* Column 4: Social Media */}
-        <div>
-          <h3 className="font-bold text-gray-900 dark:text-white mb-4">Follow Us</h3>
-          <div className="flex space-x-4">
-            <a href="#" className="hover:text-[#6A38C2] transition-colors bg-white dark:bg-gray-800 p-2 rounded-full shadow-sm">
-                <Facebook size={20} />
-            </a>
-            <a href="#" className="hover:text-[#6A38C2] transition-colors bg-white dark:bg-gray-800 p-2 rounded-full shadow-sm">
-                <Twitter size={20} />
-            </a>
-            <a href="#" className="hover:text-[#6A38C2] transition-colors bg-white dark:bg-gray-800 p-2 rounded-full shadow-sm">
-                <Linkedin size={20} />
-            </a>
-            <a href="#" className="hover:text-[#6A38C2] transition-colors bg-white dark:bg-gray-800 p-2 rounded-full shadow-sm">
-                <Instagram size={20} />
-            </a>
+          {/* Column 3: For Employers */}
+          <div>
+            <h3 className="font-bold text-sm text-foreground uppercase tracking-wider mb-5">For Employers</h3>
+            <ul className="space-y-3">
+              {[
+                { label: "Post a Job", to: "/admin/jobs/create" },
+                { label: "Manage Companies", to: "/admin/companies" },
+                { label: "Find Candidates", to: "/admin/candidates" },
+                { label: "View Applicants", to: "/admin/jobs" },
+              ].map((item) => (
+                <li key={item.label}>
+                  <Link to={item.to} className="text-sm text-muted-foreground hover:text-violet-600 dark:hover:text-violet-400 transition-colors">
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Column 4: Company */}
+          <div>
+            <h3 className="font-bold text-sm text-foreground uppercase tracking-wider mb-5">Company</h3>
+            <ul className="space-y-3">
+              {[
+                { label: "About Us", to: "/about" },
+                { label: "Contact Us", to: "/contact" },
+                { label: "FAQs", to: "/faqs" },
+                { label: "Privacy Policy", to: "/about" },
+                { label: "Terms of Service", to: "/about" },
+              ].map((item) => (
+                <li key={item.label}>
+                  <Link to={item.to} className="text-sm text-muted-foreground hover:text-violet-600 dark:hover:text-violet-400 transition-colors">
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
-      </div>
 
-      <div className="border-t border-gray-200 dark:border-gray-800 mt-12 pt-8 text-center text-sm">
-        <p>&copy; {new Date().getFullYear()} CareerLink. All rights reserved.</p>
+        {/* Bottom Bar */}
+        <div className="border-t border-gray-200 dark:border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+          <p className="text-sm text-muted-foreground">
+            &copy; {new Date().getFullYear()} CareerLink. All rights reserved.
+          </p>
+          <p className="text-sm text-muted-foreground flex items-center gap-1">
+            Built with <Heart className="w-3.5 h-3.5 text-rose-500 fill-rose-500" /> for India's talent
+          </p>
+        </div>
       </div>
     </footer>
   )

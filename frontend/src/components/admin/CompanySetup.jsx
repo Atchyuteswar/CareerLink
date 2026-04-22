@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import Navbar from '../shared/Navbar'
 import { Button } from '../ui/button'
-import { ArrowLeft, Loader2 } from 'lucide-react'
+import { ArrowLeft, Loader2, Building2 } from 'lucide-react'
 import { Label } from '../ui/label'
 import { Input } from '../ui/input'
 import axios from 'axios'
 import { useNavigate, useParams } from 'react-router-dom'
-import { Textarea } from '../ui/textarea' // Ensure you have this component
-import { Avatar, AvatarImage } from '../ui/avatar'
+import { Textarea } from '../ui/textarea'
+import { Avatar, AvatarImage, AvatarFallback } from '../ui/avatar'
+import { toast } from 'sonner'
 
 const CompanySetup = () => {
     const params = useParams();
@@ -21,7 +22,6 @@ const CompanySetup = () => {
     });
     const [loading, setLoading] = useState(false);
 
-    // Fetch existing data
     useEffect(() => {
         const fetchCompany = async () => {
             try {
@@ -34,7 +34,7 @@ const CompanySetup = () => {
                         description: res.data.company.description || "",
                         website: res.data.company.website || "",
                         location: res.data.company.location || "",
-                        file: res.data.company.logo || null // Store existing logo URL
+                        file: res.data.company.logo || null
                     })
                 }
             } catch (error) {
@@ -61,7 +61,6 @@ const CompanySetup = () => {
         formData.append("website", input.website);
         formData.append("location", input.location);
 
-        // Only append file if it's a new file object (not the URL string)
         if (input.file && typeof input.file !== 'string') {
             formData.append("file", input.file);
         }
@@ -73,12 +72,12 @@ const CompanySetup = () => {
                 withCredentials: true
             });
             if (res.data.success) {
-                alert(res.data.message);
+                toast.success(res.data.message);
                 navigate("/admin/companies");
             }
         } catch (error) {
             console.log(error);
-            alert(error.response?.data?.message || "Update failed");
+            toast.error(error.response?.data?.message || "Update failed");
         } finally {
             setLoading(false);
         }
@@ -87,46 +86,72 @@ const CompanySetup = () => {
     return (
         <div className='bg-background min-h-screen'>
             <Navbar />
-            <div className='max-w-xl mx-auto my-10 px-4'>
-                <form onSubmit={submitHandler}>
-                    <div className='flex items-center gap-5 mb-5'>
-                        <Button onClick={() => navigate("/admin/companies")} variant="outline" className="flex items-center gap-2 text-gray-500 font-semibold">
-                            <ArrowLeft />
-                            <span>Back</span>
-                        </Button>
-                        <h1 className='font-bold text-xl'>Company Setup</h1>
-                    </div>
-
-                    <div className='grid grid-cols-2 gap-4'>
-                        <div className='col-span-2 flex flex-col items-center gap-2 mb-4'>
-                            <Avatar className="h-24 w-24 border border-gray-200">
-                                <AvatarImage src={typeof input.file === 'string' ? input.file : null} />
-                            </Avatar>
-                            <Label className="cursor-pointer text-blue-600 hover:underline">
-                                Upload Logo
-                                <Input type="file" accept="image/*" className="hidden" onChange={changeFileHandler} />
-                            </Label>
+            <div className='max-w-2xl mx-auto my-10 px-4'>
+                <div className='bg-white dark:bg-gray-900/80 border border-gray-200/80 dark:border-gray-800 rounded-2xl p-8 shadow-xl shadow-gray-200/20 dark:shadow-black/20'>
+                    <form onSubmit={submitHandler}>
+                        {/* Header */}
+                        <div className='flex items-center gap-4 mb-8'>
+                            <Button type="button" onClick={() => navigate("/admin/companies")} variant="outline" size="icon" className="rounded-xl">
+                                <ArrowLeft className='w-4 h-4' />
+                            </Button>
+                            <div className='flex items-center gap-3'>
+                                <div className='w-10 h-10 rounded-xl bg-violet-100 dark:bg-violet-500/10 flex items-center justify-center'>
+                                    <Building2 className='w-5 h-5 text-violet-600 dark:text-violet-400' />
+                                </div>
+                                <div>
+                                    <h1 className='font-extrabold text-xl text-foreground'>Company Setup</h1>
+                                    <p className='text-sm text-muted-foreground'>Configure your company profile</p>
+                                </div>
+                            </div>
                         </div>
 
-                        <div className="col-span-2">
-                            <Label>Company Name</Label>
-                            <Input type="text" name="name" value={input.name} onChange={changeEventHandler} />
+                        <div className='space-y-6'>
+                            {/* Logo */}
+                            <div className='flex flex-col items-center gap-3'>
+                                <Avatar className="h-24 w-24 ring-4 ring-gray-100 dark:ring-gray-800">
+                                    <AvatarImage src={typeof input.file === 'string' ? input.file : null} />
+                                    <AvatarFallback className="bg-gradient-to-br from-violet-400 to-indigo-400 text-white text-2xl font-bold">
+                                        {input.name?.[0]?.toUpperCase() || 'C'}
+                                    </AvatarFallback>
+                                </Avatar>
+                                <Label className="cursor-pointer text-sm font-medium text-violet-600 dark:text-violet-400 hover:underline">
+                                    Upload Logo
+                                    <Input type="file" accept="image/*" className="hidden" onChange={changeFileHandler} />
+                                </Label>
+                            </div>
+
+                            {/* Fields */}
+                            <div className='grid grid-cols-1 md:grid-cols-2 gap-5'>
+                                <div className="md:col-span-2">
+                                    <Label className='text-sm font-semibold'>Company Name</Label>
+                                    <Input type="text" name="name" value={input.name} onChange={changeEventHandler} className="mt-1.5 rounded-xl" />
+                                </div>
+                                <div className="md:col-span-2">
+                                    <Label className='text-sm font-semibold'>Description</Label>
+                                    <Textarea name="description" value={input.description} onChange={changeEventHandler} placeholder="Tell us about your company..." className="mt-1.5 rounded-xl" />
+                                </div>
+                                <div>
+                                    <Label className='text-sm font-semibold'>Website</Label>
+                                    <Input type="text" name="website" value={input.website} onChange={changeEventHandler} placeholder="https://..." className="mt-1.5 rounded-xl" />
+                                </div>
+                                <div>
+                                    <Label className='text-sm font-semibold'>Location</Label>
+                                    <Input type="text" name="location" value={input.location} onChange={changeEventHandler} placeholder="City, Country" className="mt-1.5 rounded-xl" />
+                                </div>
+                            </div>
                         </div>
-                        <div className="col-span-2">
-                            <Label>Description</Label>
-                            <Textarea name="description" value={input.description} onChange={changeEventHandler} placeholder="Tell us about your company..." />
-                        </div>
-                        <div>
-                            <Label>Website</Label>
-                            <Input type="text" name="website" value={input.website} onChange={changeEventHandler} placeholder="https://..." />
-                        </div>
-                        <div>
-                            <Label>Location</Label>
-                            <Input type="text" name="location" value={input.location} onChange={changeEventHandler} placeholder="City, Country" />
-                        </div>
-                    </div>
-                    {loading ? <Button className="w-full mt-8"> <Loader2 className='mr-2 h-4 w-4 animate-spin' /> Please wait </Button> : <Button type="submit" className="w-full mt-8 bg-[#6A38C2] hover:bg-[#5b30a6]">Update Company</Button>}
-                </form>
+
+                        {loading ? (
+                            <Button className="w-full mt-8 rounded-xl h-12" disabled>
+                                <Loader2 className='mr-2 h-4 w-4 animate-spin' /> Updating...
+                            </Button>
+                        ) : (
+                            <Button type="submit" className="w-full mt-8 btn-primary rounded-xl h-12 font-semibold text-base">
+                                Update Company
+                            </Button>
+                        )}
+                    </form>
+                </div>
             </div>
         </div>
     )

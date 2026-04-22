@@ -227,3 +227,70 @@ export const getAllUsers = async (req, res) => {
         return res.status(500).json({ message: "Internal Server Error", success: false });
     }
 }
+
+// 6. CHANGE PASSWORD
+export const changePassword = async (req, res) => {
+    try {
+        const { currentPassword, newPassword } = req.body;
+        if (!currentPassword || !newPassword) {
+            return res.status(400).json({ message: "Both passwords required.", success: false });
+        }
+        const user = await User.findById(req.id);
+        if (!user) {
+            return res.status(404).json({ message: "User not found.", success: false });
+        }
+        const isMatch = await bcrypt.compare(currentPassword, user.password);
+        if (!isMatch) {
+            return res.status(400).json({ message: "Current password is incorrect.", success: false });
+        }
+        user.password = await bcrypt.hash(newPassword, 10);
+        await user.save();
+        return res.status(200).json({ message: "Password changed successfully.", success: true });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ message: "Internal Server Error", success: false });
+    }
+}
+
+// 7. DELETE ACCOUNT
+export const deleteAccount = async (req, res) => {
+    try {
+        const user = await User.findByIdAndDelete(req.id);
+        if (!user) {
+            return res.status(404).json({ message: "User not found.", success: false });
+        }
+        return res.status(200).cookie("token", "", { maxAge: 0 }).json({
+            message: "Account deleted successfully.",
+            success: true
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ message: "Internal Server Error", success: false });
+    }
+}
+
+// 8. SEARCH CANDIDATES (Recruiters only)
+export const searchCandidates = async (req, res) => {
+    try {
+        const { keyword, skills } = req.query;
+        let filter = { role: 'student' };
+        
+        if (keyword) {
+            filter.$or = [
+                { fullname: { $regex: keyword, $options: 'i' } },
+                { 'profile.headline': { $regex: keyword, $options: 'i' } },
+                { 'profile.bio': { $regex: keyword, $options: 'i' } }
+            ];
+        }
+        if (skills) {
+            const skillArr = skills.split(',').map(s => s.trim());
+            filter['profile.skills'] = { $in: skillArr.map(s => new RegExp(s, 'i')) };
+        }
+
+        const candidates = await User.find(filter).select("-password").sort({ createdAt: -1 });
+        return res.status(200).json({ candidates, success: true });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ message: "Internal Server Error", success: false });
+    }
+}

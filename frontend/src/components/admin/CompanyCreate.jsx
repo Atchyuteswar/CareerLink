@@ -18,7 +18,7 @@ const CompanyCreate = () => {
             return;
         }
         try {
-            const res = await axios.post("https://careerlink-1ank.onrender.com/api/v1/company/register", { companyName }, {
+            const res = await axios.post("http://localhost:8000/api/v1/company/register", { companyName }, {
                 headers: { 'Content-Type': 'application/json' },
                 withCredentials: true
             });

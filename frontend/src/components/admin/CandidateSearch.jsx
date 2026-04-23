@@ -21,7 +21,7 @@ const CandidateSearch = () => {
             if (keyword) params.append('keyword', keyword);
             if (skills) params.append('skills', skills);
             
-            const res = await axios.get(`https://careerlink-1ank.onrender.com/api/v1/user/candidates?${params.toString()}`, {
+            const res = await axios.get(`http://localhost:8000/api/v1/user/candidates?${params.toString()}`, {
                 withCredentials: true
             });
             if (res.data.success) setCandidates(res.data.candidates);

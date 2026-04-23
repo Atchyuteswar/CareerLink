@@ -23,14 +23,14 @@ const KanbanBoard = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const jobsRes = await axios.get("https://careerlink-1ank.onrender.com/api/v1/job/getadminjobs", { withCredentials: true });
+                const jobsRes = await axios.get("http://localhost:8000/api/v1/job/getadminjobs", { withCredentials: true });
                 if (jobsRes.data.success) {
                     setJobs(jobsRes.data.jobs);
                     // Fetch applicants for all jobs
                     const allApps = [];
                     for (const job of jobsRes.data.jobs) {
                         try {
-                            const appRes = await axios.get(`https://careerlink-1ank.onrender.com/api/v1/application/${job._id}/applicants`, { withCredentials: true });
+                            const appRes = await axios.get(`http://localhost:8000/api/v1/application/${job._id}/applicants`, { withCredentials: true });
                             if (appRes.data.success && appRes.data.job?.applications) {
                                 appRes.data.job.applications.forEach(app => {
                                     allApps.push({ ...app, jobTitle: job.title, jobId: job._id });
@@ -48,7 +48,7 @@ const KanbanBoard = () => {
 
     const moveToStage = async (applicationId, newStatus) => {
         try {
-            const res = await axios.post(`https://careerlink-1ank.onrender.com/api/v1/application/status/${applicationId}/update`, 
+            const res = await axios.post(`http://localhost:8000/api/v1/application/status/${applicationId}/update`, 
                 { status: newStatus }, { withCredentials: true });
             if (res.data.success) {
                 setApplications(prev => prev.map(app => 

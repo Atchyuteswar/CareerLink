@@ -11,7 +11,7 @@ import { toast } from 'sonner'
 const UpdateProfileDialog = ({ open, setOpen }) => {
     const [loading, setLoading] = useState(false);
     const { user, setUser } = useContext(AuthContext); 
-    const USER_API_END_POINT = "https://careerlink-1ank.onrender.com/api/v1/user";
+    const USER_API_END_POINT = "http://localhost:8000/api/v1/user";
 
     const [input, setInput] = useState({
         fullname: user?.fullname || "",

@@ -23,7 +23,7 @@ const JobDescription = () => {
     useEffect(() => {
         const fetchSingleJob = async () => {
             try {
-                const res = await axios.get(`https://careerlink-1ank.onrender.com/api/v1/job/get/${id}`, {
+                const res = await axios.get(`http://localhost:8000/api/v1/job/get/${id}`, {
                     withCredentials: true
                 });
                 if (res.data.success) {
@@ -55,7 +55,7 @@ const JobDescription = () => {
 
     const applyJobHandler = async () => {
         try {
-            const res = await axios.get(`https://careerlink-1ank.onrender.com/api/v1/application/apply/${id}`, {
+            const res = await axios.get(`http://localhost:8000/api/v1/application/apply/${id}`, {
                 withCredentials: true
             });
             if (res.data.success) {

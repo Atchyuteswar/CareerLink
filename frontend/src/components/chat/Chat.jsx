@@ -25,7 +25,7 @@ const Chat = () => {
     useEffect(() => {
         const fetchUsers = async () => {
             try {
-                const res = await axios.get("http://localhost:8000/api/v1/user/getall", { 
+                const res = await axios.get("https://careerlink-1ank.onrender.com/api/v1/user/getall", { 
                     withCredentials: true
                 });
                 if(res.data.success){
@@ -41,7 +41,7 @@ const Chat = () => {
     // 2. Connect Socket
     useEffect(() => {
         if (user) {
-            const newSocket = io('http://localhost:8000', {
+            const newSocket = io('https://careerlink-1ank.onrender.com', {
                 query: { userId: user._id },
                 transports: ['websocket']
             });
@@ -57,7 +57,7 @@ const Chat = () => {
         const fetchMessages = async () => {
             if(!selectedUser) return;
             try {
-                const res = await axios.get(`http://localhost:8000/api/v1/message/all/${selectedUser._id}`, {
+                const res = await axios.get(`https://careerlink-1ank.onrender.com/api/v1/message/all/${selectedUser._id}`, {
                     withCredentials: true
                 });
                 if(res.data.success){
@@ -78,7 +78,7 @@ const Chat = () => {
     const sendMessageHandler = async () => {
         if(!text.trim()) return;
         try {
-            const res = await axios.post(`http://localhost:8000/api/v1/message/send/${selectedUser._id}`, { message: text }, {
+            const res = await axios.post(`https://careerlink-1ank.onrender.com/api/v1/message/send/${selectedUser._id}`, { message: text }, {
                 headers: { 'Content-Type': 'application/json' },
                 withCredentials: true
             });

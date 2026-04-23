@@ -11,7 +11,7 @@ const ApplicantsTable = () => {
     useEffect(() => {
         const fetchApplicants = async () => {
             try {
-                const res = await axios.get(`http://localhost:8000/api/v1/application/${params.id}/applicants`, {
+                const res = await axios.get(`https://careerlink-1ank.onrender.com/api/v1/application/${params.id}/applicants`, {
                     withCredentials: true
                 });
                 if (res.data.success) {
@@ -27,7 +27,7 @@ const ApplicantsTable = () => {
     const statusHandler = async (status, id) => {
         try {
             axios.defaults.withCredentials = true;
-            const res = await axios.post(`http://localhost:8000/api/v1/application/status/${id}/update`, { status });
+            const res = await axios.post(`https://careerlink-1ank.onrender.com/api/v1/application/status/${id}/update`, { status });
             if (res.data.success) {
                 alert(res.data.message);
             }

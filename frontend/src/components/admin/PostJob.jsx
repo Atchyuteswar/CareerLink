@@ -30,7 +30,7 @@ const PostJob = () => {
     useEffect(() => {
         const fetchCompanies = async () => {
             try {
-                const res = await axios.get("http://localhost:8000/api/v1/company/get", { withCredentials: true });
+                const res = await axios.get("https://careerlink-1ank.onrender.com/api/v1/company/get", { withCredentials: true });
                 if (res.data.success) setCompanies(res.data.companies);
             } catch (error) { console.log(error); }
         }
@@ -50,7 +50,7 @@ const PostJob = () => {
         e.preventDefault();
         try {
             setLoading(true);
-            const res = await axios.post("http://localhost:8000/api/v1/job/post", input, {
+            const res = await axios.post("https://careerlink-1ank.onrender.com/api/v1/job/post", input, {
                 headers: { 'Content-Type': 'application/json' },
                 withCredentials: true
             });

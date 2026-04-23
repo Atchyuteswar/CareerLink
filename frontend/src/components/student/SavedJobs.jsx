@@ -11,7 +11,7 @@ const SavedJobs = () => {
     useEffect(() => {
         const fetchSavedJobs = async () => {
             try {
-                const res = await axios.get("http://localhost:8000/api/v1/job/get/saved/jobs", {
+                const res = await axios.get("https://careerlink-1ank.onrender.com/api/v1/job/get/saved/jobs", {
                     withCredentials: true
                 });
                 if (res.data.success) {

@@ -39,7 +39,7 @@ const ApplicationTracker = () => {
     useEffect(() => {
         const fetchApps = async () => {
             try {
-                const res = await axios.get("http://100.94.122.76:8000/api/v1/application/get", { withCredentials: true });
+                const res = await axios.get("https://careerlink-1ank.onrender.com/api/v1/application/get", { withCredentials: true });
                 if (res.data.success) setApplications(res.data.application || []);
             } catch (e) { console.log(e); }
             finally { setLoading(false); }
@@ -50,7 +50,7 @@ const ApplicationTracker = () => {
     const handleWithdraw = async (appId) => {
         if (!window.confirm("Are you sure you want to withdraw this application?")) return;
         try {
-            const res = await axios.post(`http://100.94.122.76:8000/api/v1/application/withdraw/${appId}`, {}, { withCredentials: true });
+            const res = await axios.post(`https://careerlink-1ank.onrender.com/api/v1/application/withdraw/${appId}`, {}, { withCredentials: true });
             if (res.data.success) {
                 setApplications(prev => prev.map(a => a._id === appId ? { ...a, status: 'withdrawn' } : a));
                 toast.success("Application withdrawn.");
@@ -60,7 +60,7 @@ const ApplicationTracker = () => {
 
     const handleSaveNote = async (appId) => {
         try {
-            const res = await axios.post(`http://100.94.122.76:8000/api/v1/application/note/${appId}`, { note: noteText }, { withCredentials: true });
+            const res = await axios.post(`https://careerlink-1ank.onrender.com/api/v1/application/note/${appId}`, { note: noteText }, { withCredentials: true });
             if (res.data.success) {
                 setApplications(prev => prev.map(a => a._id === appId ? { ...a, notes: noteText } : a));
                 toast.success("Note saved.");

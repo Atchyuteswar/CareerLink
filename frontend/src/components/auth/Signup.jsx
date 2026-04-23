@@ -29,7 +29,7 @@ const Signup = () => {
         }
         try {
             setLoading(true);
-            const res = await axios.post('http://100.94.122.76:8000/api/v1/user/register', input, {
+            const res = await axios.post('https://careerlink-1ank.onrender.com/api/v1/user/register', input, {
                 headers: { "Content-Type": "application/json" },
                 withCredentials: true,
             });

@@ -89,7 +89,7 @@ function App() {
 
   useEffect(() => {
     if (user) {
-      const socket = io('http://100.94.122.76:8000', {
+      const socket = io('https://careerlink-1ank.onrender.com', {
         query: { userId: user._id },
         transports: ['websocket']
       });

@@ -14,7 +14,7 @@ const BrowseCompanies = () => {
     useEffect(() => {
         const fetchCompanies = async () => {
             try {
-                const res = await axios.get("http://100.94.122.76:8000/api/v1/company/getall");
+                const res = await axios.get("https://careerlink-1ank.onrender.com/api/v1/company/getall");
                 if (res.data.success) setCompanies(res.data.companies);
             } catch (error) { console.log(error); }
             finally { setLoading(false); }

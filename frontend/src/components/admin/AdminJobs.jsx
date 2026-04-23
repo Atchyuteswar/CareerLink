@@ -16,7 +16,7 @@ const AdminJobs = () => {
     useEffect(() => {
         const fetchAdminJobs = async () => {
             try {
-                const res = await axios.get("http://100.94.122.76:8000/api/v1/job/getadminjobs", {
+                const res = await axios.get("https://careerlink-1ank.onrender.com/api/v1/job/getadminjobs", {
                     withCredentials: true
                 });
                 if (res.data.success) {

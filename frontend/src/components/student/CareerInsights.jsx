@@ -85,8 +85,8 @@ const CareerInsights = () => {
         const fetchData = async () => {
             try {
                 const [jobsRes, appRes] = await Promise.all([
-                    axios.get("http://100.94.122.76:8000/api/v1/job/get", { withCredentials: true }),
-                    axios.get("http://100.94.122.76:8000/api/v1/application/get", { withCredentials: true })
+                    axios.get("https://careerlink-1ank.onrender.com/api/v1/job/get", { withCredentials: true }),
+                    axios.get("https://careerlink-1ank.onrender.com/api/v1/application/get", { withCredentials: true })
                 ]);
                 
                 if (jobsRes.data.success) setJobs(jobsRes.data.jobs);

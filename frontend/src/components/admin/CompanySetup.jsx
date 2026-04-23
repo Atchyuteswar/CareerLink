@@ -25,7 +25,7 @@ const CompanySetup = () => {
     useEffect(() => {
         const fetchCompany = async () => {
             try {
-                const res = await axios.get(`http://localhost:8000/api/v1/company/get/${params.id}`, {
+                const res = await axios.get(`http://100.94.122.76:8000/api/v1/company/get/${params.id}`, {
                     withCredentials: true
                 });
                 if (res.data.success) {
@@ -67,7 +67,7 @@ const CompanySetup = () => {
 
         try {
             setLoading(true);
-            const res = await axios.put(`http://localhost:8000/api/v1/company/update/${params.id}`, formData, {
+            const res = await axios.put(`http://100.94.122.76:8000/api/v1/company/update/${params.id}`, formData, {
                 headers: { 'Content-Type': 'multipart/form-data' },
                 withCredentials: true
             });

@@ -25,7 +25,7 @@ const EditJob = () => {
     useEffect(() => {
         const fetchJob = async () => {
             try {
-                const res = await axios.get(`http://localhost:8000/api/v1/job/get/${params.id}`, {
+                const res = await axios.get(`http://100.94.122.76:8000/api/v1/job/get/${params.id}`, {
                     withCredentials: true
                 });
                 if (res.data.success) {
@@ -58,7 +58,7 @@ const EditJob = () => {
         e.preventDefault();
         try {
             setLoading(true);
-            const res = await axios.put(`http://localhost:8000/api/v1/job/update/${params.id}`, input, {
+            const res = await axios.put(`http://100.94.122.76:8000/api/v1/job/update/${params.id}`, input, {
                 headers: { 'Content-Type': 'application/json' },
                 withCredentials: true
             });

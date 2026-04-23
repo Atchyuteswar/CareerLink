@@ -31,7 +31,7 @@ const AccountSettings = () => {
         }
         try {
             setChangeLoading(true);
-            const res = await axios.post("http://localhost:8000/api/v1/user/change-password", {
+            const res = await axios.post("http://100.94.122.76:8000/api/v1/user/change-password", {
                 currentPassword: passwordForm.currentPassword,
                 newPassword: passwordForm.newPassword
             }, { withCredentials: true });
@@ -51,7 +51,7 @@ const AccountSettings = () => {
         if (!confirmed) return;
         try {
             setDeleteLoading(true);
-            const res = await axios.delete("http://localhost:8000/api/v1/user/delete-account", { withCredentials: true });
+            const res = await axios.delete("http://100.94.122.76:8000/api/v1/user/delete-account", { withCredentials: true });
             if (res.data.success) {
                 toast.success("Account deleted successfully.");
                 setUser(null);
@@ -67,7 +67,7 @@ const AccountSettings = () => {
 
     const handleLogout = async () => {
         try {
-            await axios.get("http://localhost:8000/api/v1/user/logout", { withCredentials: true });
+            await axios.get("http://100.94.122.76:8000/api/v1/user/logout", { withCredentials: true });
             setUser(null);
             localStorage.removeItem("user");
             navigate('/');

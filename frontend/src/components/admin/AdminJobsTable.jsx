@@ -12,7 +12,7 @@ const AdminJobsTable = ({ jobs }) => {
         if (!confirmDelete) return;
 
         try {
-            const res = await axios.delete(`http://localhost:8000/api/v1/job/delete/${jobId}`, {
+            const res = await axios.delete(`http://100.94.122.76:8000/api/v1/job/delete/${jobId}`, {
                 withCredentials: true
             });
             if (res.data.success) {

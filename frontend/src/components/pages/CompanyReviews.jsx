@@ -42,7 +42,7 @@ const CompanyReviews = () => {
     useEffect(() => {
         const fetchCompanies = async () => {
             try {
-                const res = await axios.get("http://localhost:8000/api/v1/company/getall");
+                const res = await axios.get("http://100.94.122.76:8000/api/v1/company/getall");
                 if (res.data.success) {
                     setCompanies(res.data.companies);
                     if (res.data.companies.length > 0) {
@@ -59,7 +59,7 @@ const CompanyReviews = () => {
         if (!selectedCompany) return;
         const fetchReviews = async () => {
             try {
-                const res = await axios.get(`http://localhost:8000/api/v1/review/company/${selectedCompany._id}`);
+                const res = await axios.get(`http://100.94.122.76:8000/api/v1/review/company/${selectedCompany._id}`);
                 if (res.data.success) {
                     setReviews(res.data.reviews);
                     setAvgRating(res.data.avgRating);
@@ -76,7 +76,7 @@ const CompanyReviews = () => {
         if (!form.title || !form.rating) return toast.error("Title and rating are required.");
         try {
             setSubmitting(true);
-            const res = await axios.post("http://localhost:8000/api/v1/review/create", {
+            const res = await axios.post("http://100.94.122.76:8000/api/v1/review/create", {
                 company: selectedCompany._id, ...form
             }, { withCredentials: true });
             if (res.data.success) {
@@ -91,7 +91,7 @@ const CompanyReviews = () => {
 
     const handleHelpful = async (reviewId) => {
         try {
-            const res = await axios.post(`http://localhost:8000/api/v1/review/helpful/${reviewId}`, {}, { withCredentials: true });
+            const res = await axios.post(`http://100.94.122.76:8000/api/v1/review/helpful/${reviewId}`, {}, { withCredentials: true });
             if (res.data.success) {
                 setReviews(prev => prev.map(r => r._id === reviewId ? { ...r, helpful: Array(res.data.helpfulCount).fill(null) } : r));
             }

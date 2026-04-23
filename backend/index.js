@@ -17,7 +17,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 app.use(cookieParser());
 const corsOptions = {
-    origin: ['http://localhost:5173', 'https://careerlink.vercel.app'], // Add your Vercel link here later
+    origin: ['http://localhost:5173', 'https://careerlink.vercel.app', 'http://100.94.122.76:5173'], // Added Tailscale IP for local network testing
     credentials: true
 }
 app.use(cors(corsOptions));
